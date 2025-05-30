@@ -14,8 +14,8 @@ const BookCard = ({ id, title, author, description, imageUrl, date }) => {
   return (
     <Card
       sx={{
-        width: 240,           // ✅ 작게 고정
-        height: 320,          // ✅ 높이도 고정
+        width: 240,           //  작게 고정
+        height: 320,          //  높이도 고정
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',

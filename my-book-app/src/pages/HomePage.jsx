@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -7,30 +8,31 @@ import {
   Container,
   Grid,
   Paper,
+  CircularProgress,
 } from '@mui/material';
 import BookCard from '../components/BookCard';
+import { fetchBooks } from '../api/bookApi';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const books = [
-    {
-      id: 1,
-      title: '나는 왜 쉬지 못할까?',
-      author: '김은영',
-      date: '2024-05-12',
-      description: '정신의학과 교수가 쓴 책입니다. 이 책은 현대인의 마음을 위로하고 삶의 균형을 찾도록 도와줍니다.',
-      imageUrl: 'https://via.placeholder.com/300x200.png?text=나는+왜+쉬지+못할까?',
-    },
-    {
-      id: 2,
-      title: '데미안',
-      author: '헤르만 헤세',
-      date: '2024-03-01',
-      description: '자아와 성장에 관한 이야기. 20세기 독일 문학의 대표작 중 하나입니다.',
-      imageUrl: 'https://via.placeholder.com/300x200.png?text=데미안',
-    },
-  ];
+  useEffect(() => {
+    const loadBooks = async () => {
+      try {
+        const res = await fetchBooks();
+        setBooks(res.data);
+      } catch (err) {
+        alert('도서 목록을 불러오는 데 실패했습니다.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBooks();
+  }, []);
 
   return (
     <>
@@ -58,15 +60,26 @@ const HomePage = () => {
           📖 책을 선택해 자세히 살펴보세요 📖
         </Typography>
 
-        <Paper elevation={3} sx={{ p: 4, borderRadius: 4 }}>
-          <Grid container spacing={3} justifyContent="center">
-            {books.map((book) => (
-              <Grid item xs={12} sm={6} md={4} key={book.id}>
-                <BookCard {...book} />
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Paper elevation={3} sx={{ p: 4, borderRadius: 4 }}>
+            <Grid container spacing={3} justifyContent="center">
+              {books.map((book) => (
+                <Grid item xs={12} sm={6} md={4} key={book.id}>
+                  <BookCard
+                    id={book.id}
+                    title={book.title}
+                    author={book.author}
+                    date={book.createdAt}
+                    description={book.content}
+                    imageUrl={book.coverImageUrl}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        )}
       </Container>
     </>
   );

@@ -12,49 +12,72 @@ import {
   DialogContentText,
   DialogTitle,
   Paper,
+  CircularProgress,
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchBookById, deleteBook } from '../api/bookApi';
 
 const BookDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const books = [
-    {
-      id: 1,
-      title: '나는 왜 쉬지 못할까?',
-      author: '김은영',
-      description:
-        '이 책은 정신의학과 교수가 오랜 임상 경험을 토대로 일과 휴식 사이에서 균형을 찾지 못하는 현대인에게 꼭 필요한 메시지를 담고 있다. 삶을 되돌아보게 만드는 통찰과 실천적 조언이 담겨 있다.',
-      imageUrl: 'https://via.placeholder.com/300x300.png?text=나는+왜+쉬지+못할까?',
-      createdAt: '2025.05.29',
-      updatedAt: '2025.05.30',
-    },
-  ];
+  useEffect(() => {
+    const loadBook = async () => {
+      try {
+        const res = await fetchBookById(id);
+        setBook(res.data);
+      } catch (err) {
+        alert("도서를 불러오는 데 실패했습니다.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBook();
+  }, [id]);
 
-  const book = books.find((b) => b.id === Number(id));
-  if (!book) return <Typography>도서를 찾을 수 없습니다.</Typography>;
-
-  const handleConfirmDelete = () => {
-    setOpenDialog(false);
-    alert('도서가 삭제되었습니다. (※ 실제 기능은 추후 구현)');
-    navigate('/');
+  const handleConfirmDelete = async () => {
+    try {
+      setOpenDialog(false); // ✅ 먼저 모달 닫기
+      await deleteBook(id);
+      alert("도서가 삭제되었습니다.");
+      navigate('/');
+    } catch (err) {
+      alert("삭제에 실패했습니다.");
+      console.error(err);
+    }
   };
+  
+
+  if (loading) {
+    return (
+      <Container sx={{ mt: 6 }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
+
+  if (!book) {
+    return (
+      <Container sx={{ mt: 6 }}>
+        <Typography>도서를 찾을 수 없습니다.</Typography>
+      </Container>
+    );
+  }
 
   return (
     <>
       {/* 상단 고정 헤더 */}
       <AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-            <Typography
-                variant="h6"
-                sx={{ cursor: 'pointer' }}
-                onClick={() => navigate('/')}
-            >
-                AIVLE SCHOOL 6반 16조
-            </Typography>
+          <Typography variant="h6" sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+            AIVLE SCHOOL 6반 16조
+          </Typography>
           <Button color="inherit" onClick={() => navigate('/')}>
             메인화면
           </Button>
@@ -63,46 +86,37 @@ const BookDetailPage = () => {
 
       {/* 본문 */}
       <Container sx={{ mt: 6, mb: 10 }}>
-        <Typography
-          variant="h4"
-          align="center"
-          gutterBottom
-          sx={{ fontWeight: 'bold', mb: 5 }}
-        >
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', mb: 5 }}>
           도서상세
         </Typography>
 
-        {/* ✅ 네모 테두리 영역 */}
         <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
           <Grid container spacing={4}>
-            {/* 이미지 */}
             <Grid item xs={12} md={4}>
               <Box sx={{ textAlign: 'center' }}>
                 <img
-                  src={book.imageUrl}
+                  src={book.coverImageUrl}
                   alt={book.title}
                   style={{ width: '100%', maxWidth: 280, borderRadius: 8 }}
                 />
               </Box>
             </Grid>
 
-            {/* 텍스트 정보 */}
             <Grid item xs={12} md={8}>
               <Typography variant="h6" gutterBottom>제목: {book.title}</Typography>
               <Typography gutterBottom>저자: {book.author}</Typography>
-              <Typography gutterBottom>작성일: {book.createdAt}</Typography>
-              <Typography gutterBottom>수정일: {book.updatedAt}</Typography>
+              <Typography gutterBottom>작성일: {book.createdAt || '-'}</Typography>
+              <Typography gutterBottom>수정일: {book.updatedAt || '-'}</Typography>
             </Grid>
           </Grid>
 
-          {/* 내용 */}
           <Box sx={{ mt: 4 }}>
             <Typography variant="h6" gutterBottom>내용</Typography>
-            <Typography sx={{ whiteSpace: 'pre-line' }}>{book.description}</Typography>
+            <Typography sx={{ whiteSpace: 'pre-line' }}>{book.content}</Typography>
           </Box>
         </Paper>
 
-        {/* 🔧 수정/삭제 버튼 (틀 바깥쪽) */}
+        {/* 수정/삭제 버튼 */}
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
           <Button variant="outlined" color="primary" onClick={() => navigate(`/edit/${book.id}`)}>
             수정
