@@ -36,7 +36,7 @@ const HomePage = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#0D1B2A' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Typography
             variant="h6"
@@ -50,7 +50,6 @@ const HomePage = () => {
           </Button>
         </Toolbar>
       </AppBar>
-
       <Container sx={{ mt: 6, mb: 10 }}>
         <Typography
           variant="h5"

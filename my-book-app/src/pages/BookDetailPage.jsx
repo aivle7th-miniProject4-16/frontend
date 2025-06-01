@@ -73,7 +73,7 @@ const BookDetailPage = () => {
   return (
     <>
       {/* 상단 고정 헤더 */}
-      <AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#0D1B2A' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Typography variant="h6" sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
             AIVLE SCHOOL 6반 16조
