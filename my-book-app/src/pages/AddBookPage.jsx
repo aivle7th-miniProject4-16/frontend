@@ -19,17 +19,19 @@ const AddBookPage = () => {
   const [description, setDescription] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState('');
   const [generating, setGenerating] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+
   const navigate = useNavigate();
 
   const handleImageGenerate = async () => {
-    if (!title.trim() || !description.trim()) {
-      alert('제목과 설명을 모두 입력해주세요.');
+    if (!title.trim() || !description.trim() || !apiKey.trim()) {
+      alert('제목, 내용, API 키를 모두 입력해주세요.');
       return;
     }
-
+  
     setGenerating(true);
     try {
-      const imageUrl = await generateCoverImage(title, description);
+      const imageUrl = await generateCoverImage(apiKey, title, description);
       if (imageUrl) {
         setGeneratedImageUrl(imageUrl);
         alert('✅ 이미지가 성공적으로 생성되었습니다.');
@@ -43,6 +45,7 @@ const AddBookPage = () => {
       setGenerating(false);
     }
   };
+  
 
   const handleRegister = async () => {
     if (!title.trim() || !author.trim() || !description.trim()) {
@@ -89,30 +92,46 @@ const AddBookPage = () => {
           <Grid container spacing={4}>
             {/* 입력 영역 */}
             <Grid item xs={12} md={5}>
-              <TextField
-                fullWidth
-                label="제목 입력"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                margin="normal"
-              />
-              <TextField
-                fullWidth
-                label="저자 입력"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                margin="normal"
-              />
-              <TextField
-                fullWidth
-                label="내용 입력"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                margin="normal"
-                multiline
-                rows={6}
-              />
-            </Grid>
+            <TextField
+  fullWidth
+  label="OpenAI API 키 입력"
+  value={apiKey}
+  onChange={(e) => {
+    const key = e.target.value;
+    console.log('입력된 API 키:', key);  // 🔍 여기!
+    setApiKey(key.trim());
+  }}
+  margin="normal"
+  type="password"
+  placeholder="sk-..."
+/>
+
+
+            <TextField
+              fullWidth
+              label="제목 입력"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="저자 입력"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="내용 입력"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              margin="normal"
+              multiline
+              rows={6}
+            />
+          </Grid>
+
 
             {/* 이미지 영역 */}
             <Grid item xs={12} md={7}>

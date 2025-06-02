@@ -25,6 +25,7 @@ const EditBookPage = () => {
   const [coverImageUrl, setCoverImageUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [apiKey, setApiKey] = useState(''); // ✅ API 키 상태 추가
 
   useEffect(() => {
     const loadBook = async () => {
@@ -66,14 +67,14 @@ const EditBookPage = () => {
   const handleCancel = () => navigate(`/detail/${id}`);
 
   const handleImageGenerate = async () => {
-    if (!title.trim() || !content.trim()) {
-      alert('제목과 내용은 반드시 입력해주세요.');
+    if (!title.trim() || !content.trim() || !apiKey.trim()) {
+      alert('제목, 내용, API 키를 모두 입력해주세요.');
       return;
     }
 
     setGenerating(true);
     try {
-      const imageUrl = await generateCoverImage(title, content);
+      const imageUrl = await generateCoverImage(apiKey, title, content); // ✅ API 키 전달
       if (imageUrl) {
         setCoverImageUrl(imageUrl);
         alert('✅ 이미지가 성공적으로 생성되었습니다.');
@@ -102,15 +103,36 @@ const EditBookPage = () => {
 
       <Container sx={{ mt: 6, mb: 10, display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ p: 4, maxWidth: 1300, width: '100%' }}>
-          <Typography variant="h5" gutterBottom sx={{ mb: 4,fontWeight: 'bold'}}>
+          <Typography variant="h5" gutterBottom sx={{ mb: 4, fontWeight: 'bold' }}>
             📘 도서 수정
           </Typography>
 
           <Grid container spacing={4}>
             {/* 입력 영역 */}
             <Grid item xs={12} md={5}>
-              <TextField fullWidth label="제목" value={title} onChange={(e) => setTitle(e.target.value)} margin="normal" />
-              <TextField fullWidth label="저자" value={author} onChange={(e) => setAuthor(e.target.value)} margin="normal" />
+              <TextField
+                fullWidth
+                label="OpenAI API 키 입력"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value.trim())}
+                margin="normal"
+                type="password"
+                placeholder="sk-..."
+              />
+              <TextField
+                fullWidth
+                label="제목"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="저자"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                margin="normal"
+              />
               <TextField
                 fullWidth
                 label="내용"
