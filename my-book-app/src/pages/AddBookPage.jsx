@@ -91,50 +91,47 @@ const AddBookPage = () => {
 
           <Grid container spacing={4}>
             {/* 입력 영역 */}
-            <Grid item xs={12} md={5}>
-            <TextField
-  fullWidth
-  label="OpenAI API 키 입력"
-  value={apiKey}
-  onChange={(e) => {
-    const key = e.target.value;
-    console.log('입력된 API 키:', key);  // 🔍 여기!
-    setApiKey(key.trim());
-  }}
-  margin="normal"
-  type="password"
-  placeholder="sk-..."
-/>
-
-
-            <TextField
-              fullWidth
-              label="제목 입력"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="저자 입력"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="내용 입력"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              margin="normal"
-              multiline
-              rows={6}
-            />
+            <Grid item xs={12} md={6}>
+            <Box sx={{ maxWidth: 600, width: '100%' }}>
+              <TextField
+                fullWidth
+                label="OpenAI API 키 입력"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value.trim())}
+                margin="normal"
+                type="password"
+                placeholder="sk-..."
+              />
+              <TextField
+                fullWidth
+                label="제목 입력"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="저자 입력"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="내용 입력"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                margin="normal"
+                multiline
+                rows={6}
+              />
+            </Box>
           </Grid>
 
 
+
             {/* 이미지 영역 */}
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   width: 400,

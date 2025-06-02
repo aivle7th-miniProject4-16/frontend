@@ -108,8 +108,9 @@ const EditBookPage = () => {
           </Typography>
 
           <Grid container spacing={4}>
+          <Box sx={{ maxWidth: 600, width: '100%' }}>
             {/* 입력 영역 */}
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 label="OpenAI API 키 입력"
@@ -143,9 +144,11 @@ const EditBookPage = () => {
                 rows={6}
               />
             </Grid>
+            </Box>
+
 
             {/* 이미지 및 버튼 영역 */}
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   width: 400,
