@@ -17,6 +17,7 @@ import {
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchBookById, deleteBook } from '../api/bookApi';
+import Header from '../components/Header';
 
 const BookDetailPage = () => {
   const { id } = useParams();
@@ -72,17 +73,7 @@ const BookDetailPage = () => {
 
   return (
     <>
-      {/* 상단 고정 헤더 */}
-      <AppBar position="static" sx={{ backgroundColor: '#0D1B2A' }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6" sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-            AIVLE SCHOOL 6반 16조
-          </Typography>
-          <Button color="inherit" onClick={() => navigate('/')}>
-            메인화면
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Header buttonLabel="메인화면" buttonPath="/" />
 
       {/* 본문 */}
       <Container sx={{ mt: 6, mb: 10 }}>

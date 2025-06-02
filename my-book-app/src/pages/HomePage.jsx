@@ -1,10 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
-  AppBar,
-  Toolbar,
   Typography,
-  Button,
   Container,
   Grid,
   Paper,
@@ -12,6 +9,7 @@ import {
 } from '@mui/material';
 import BookCard from '../components/BookCard';
 import { fetchBooks } from '../api/bookApi';
+import Header from '../components/Header';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -36,20 +34,7 @@ const HomePage = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#0D1B2A' }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => navigate('/')}
-          >
-            AIVLE SCHOOL 6반 16조
-          </Typography>
-          <Button color="inherit" onClick={() => navigate('/add')}>
-            도서 등록
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Header buttonLabel="도서 등록" buttonPath="/add" />
       <Container sx={{ mt: 6, mb: 10 }}>
         <Typography
           variant="h5"
@@ -62,7 +47,7 @@ const HomePage = () => {
         {loading ? (
           <CircularProgress />
         ) : (
-          <Paper elevation={3} sx={{ p: 4, borderRadius: 4 }}>
+          <Paper elevation={1} sx={{ p: 4, borderRadius: 4 }}>
             <Grid container spacing={3} justifyContent="center">
               {books.map((book) => (
                 <Grid item xs={12} sm={6} md={4} key={book.id}>

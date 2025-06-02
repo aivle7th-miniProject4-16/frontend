@@ -33,7 +33,7 @@ const BookCard = ({ id, title, author, description, imageUrl, date }) => {
           {title}
         </Typography>
         <Typography variant="body2">저자: {author}</Typography>
-        <Typography variant="body2">작성일: {date}</Typography>
+        <Typography variant="body2">작성일: {date.substring(0, 10)}</Typography>
         <Typography
           variant="body2"
           color="text.secondary"
@@ -50,8 +50,8 @@ const BookCard = ({ id, title, author, description, imageUrl, date }) => {
           {description}
         </Typography>
       </CardContent>
-      <CardActions sx={{ px: 2, pb: 1 }}>
-        <Button size="small" onClick={() => navigate(`/detail/${id}`)}>
+      <CardActions sx={{ px: 2, pb: 1,justifyContent: 'flex-end', }}>
+        <Button size="small" sx={{color:'#0D1B2A' }} onClick={() => navigate(`/detail/${id}`)}>
           상세보기
         </Button>
       </CardActions>

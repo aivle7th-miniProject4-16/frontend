@@ -21,18 +21,21 @@ export const generateCoverImage = async (title, content) => {
 // The focus should be on showcasing the cover design in detail. Avoid distant or small book perspectives.
 // `;
 const prompt = `
-Create a high-resolution, close-up 3D rendering of a modern printed book standing upright.
-The book should appear large in the frame, with its front cover clearly visible in full detail and minimal background.
+Create a high-quality 3D-rendered image of a single hardcover book standing upright.
 
-This book is titled "${title}", and the story is about: ${content}
+The book is titled "${title}".
+Its story is about: ${content}
 
-Design the cover in a vibrant, richly artistic style — use bold and expressive colors, layered textures, glowing or luminous effects, and intricate visual elements.
-Incorporate symbolic or metaphorical imagery that represents the story’s core emotions or themes.
-Avoid literal illustrations; instead, aim for imaginative, surreal, or dreamlike compositions that evoke curiosity and beauty.
+Design the front cover to visually reflect the core feeling or theme of the story. Use symbolic or abstract imagery that conveys the mood — such as hope, loneliness, growth, mystery, or wonder — based on the story.
 
-The book should look like a luxurious, professionally published print — glossy or matte finish, crisp lighting, and dramatic shadows.
-Do not include any text. Focus entirely on the visual artistry and emotional resonance of the cover design.
+The cover should use artistic and metaphorical visuals that hint at the genre and tone without using any text or characters.
+
+Keep the background simple and softly lit. Focus on making the book appear visually striking and emotionally resonant.
 `;
+
+
+
+
 
 
 

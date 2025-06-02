@@ -1,6 +1,4 @@
 import {
-  AppBar,
-  Toolbar,
   Container,
   TextField,
   Button,
@@ -8,12 +6,12 @@ import {
   Box,
   Grid,
   CircularProgress,
-  Paper,
 } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createBook } from '../api/bookApi';
 import { generateCoverImage } from '../api/generateCoverImage';
+import Header from '../components/Header';
 
 const AddBookPage = () => {
   const [title, setTitle] = useState('');
@@ -75,17 +73,7 @@ const AddBookPage = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#0D1B2A' }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6" sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-            AIVLE SCHOOL 6반 16조
-          </Typography>
-          <Button color="inherit" onClick={() => navigate('/')}>
-            메인화면
-          </Button>
-        </Toolbar>
-      </AppBar>
-
+      <Header buttonLabel="메인화면" buttonPath="/" />
       <Container sx={{ mt: 6, mb: 10, display: 'flex', justifyContent: 'center' }}>
       <Box
             sx={{
@@ -94,7 +82,7 @@ const AddBookPage = () => {
               width: '100%',
             }}
           >
-          <Typography variant="h5" gutterBottom sx={{ mb: 4 }}>
+          <Typography variant="h5" gutterBottom sx={{ mb: 4,fontWeight: 'bold' }}>
             📘 새 도서 등록
           </Typography>
 
